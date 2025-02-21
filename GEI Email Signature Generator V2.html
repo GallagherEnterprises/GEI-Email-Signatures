@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h2>Email Signature Generator</h2>
+    <div>
+        <label for="name">Full Name:</label><br>
+        <input type="text" id="name" name="name" placeholder="Your Name"><br><br>
+
+        <label for="cell_number">Cell Number:</label><br>
+        <input type="text" id="cell_number" name="cell_number" placeholder="C-Your Cell Number"><br><br>
+
+        <label for="email_prefix">Email Prefix (before @):</label><br>
+        <input type="text" id="email_prefix" name="email_prefix" placeholder="Your Email Prefix"><br><br>
+
+        <button onclick="generateSignature()">Generate Signature</button>
+        <button onclick="copyToClipboard()">Copy Signature</button>
+    </div>
+    
+    <h3>Generated Signature:</h3>
+    <div id="signature_output">
+        <!-- Signature will be shown here after user input -->
+    </div>
+
+    <script>
+        function generateSignature() {
+            var name = document.getElementById('name').value;
+            var cell_number = document.getElementById('cell_number').value;
+            var email_prefix = document.getElementById('email_prefix').value;
+
+            var signature = `
+                <table style="font-family: Helvetica, sans-serif; line-height: 1;">
+                    <tr><td style="font-size: 14.7px; color: #1F497D;"><strong>${name}</strong></td></tr>
+                    <tr><td style="font-size: 13.3px; color: #000000;">Gallagher Enterprises Inc.</td></tr>
+                    <tr><td style="font-size: 13.3px; color: #E54121;">C-${cell_number}</td></tr>
+                    <tr><td style="font-size: 13.3px; color: #E54121;">P-604-531-3156</td></tr>
+                    <tr><td style="font-size: 13.3px; color: #942193;"><span><a href="mailto:${email_prefix}@gallagherenterprises.ca" style="text-decoration: none; color: #942193;">${email_prefix}@gallagherenterprises.ca</a></span></td></tr>
+                </table>
+            `;
+
+            document.getElementById('signature_output').innerHTML = signature;
+        }
+
+        function copyToClipboard() {
+            var signatureHTML = document.getElementById('signature_output').innerHTML;
+            var tempElement = document.createElement("div");
+            tempElement.innerHTML = signatureHTML;
+            document.body.appendChild(tempElement);
+
+            var range = document.createRange();
+            range.selectNode(tempElement);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+            document.body.removeChild(tempElement);
+            alert("Signature copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
